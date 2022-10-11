@@ -1,4 +1,4 @@
-use std::collections::HashSet;
+use std::collections::BTreeSet;
 
 #[aoc_generator(day4)]
 pub fn input_generator(input: &str) -> Vec<Vec<String>> {
@@ -22,7 +22,7 @@ pub fn solve_part1(input: &[Vec<String>]) -> u32 {
     let mut valid = 0;
 
     'outer: for passphrase in input.iter() {
-        let mut set = HashSet::new();
+        let mut set = BTreeSet::new();
 
         for word in passphrase.iter() {
             if !set.insert(word) {
@@ -41,7 +41,7 @@ pub fn solve_part2(input: &[Vec<String>]) -> u32 {
     let mut valid = 0;
 
     'outer: for passphrase in input.iter() {
-        let mut set = HashSet::new();
+        let mut set = BTreeSet::new();
 
         for word in passphrase.iter() {
             let mut chars: Vec<char> = word.chars().collect();

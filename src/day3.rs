@@ -42,7 +42,7 @@ const MOTIONS: [(i32, i32); 4] = [(1, 0), (0, 1), (-1, 0), (0, -1)];
 
 #[aoc(day3, part2)]
 pub fn solve_part2(input: &u32) -> u32 {
-    let mut points = std::collections::HashMap::new();
+    let mut points = std::collections::BTreeMap::new();
     let mut cursor = (0, 0);
 
     points.insert(cursor, 1);
