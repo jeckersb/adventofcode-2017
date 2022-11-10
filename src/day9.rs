@@ -3,7 +3,7 @@ use nom::{
     bytes::complete::{is_not, tag},
     character::complete::{anychar, char},
     combinator::{map, opt},
-    multi::many0,
+    multi::{fold_many0, many0},
     sequence::{delimited, pair, terminated},
     IResult,
 };
@@ -23,13 +23,17 @@ impl Thing {
         map(
             delimited(
                 tag("<"),
-                many0(alt((
-                    map(pair(char('!'), anychar), |_| 0),
-                    map(is_not("!>"), |s: &str| s.len() as i32),
-                ))),
+                fold_many0(
+                    alt((
+                        map(pair(char('!'), anychar), |_| 0),
+                        map(is_not("!>"), |s: &str| s.len() as i32),
+                    )),
+                    || 0,
+                    |sum, item| sum + item,
+                ),
                 tag(">"),
             ),
-            |counts| Self::Garbage(counts.iter().sum()),
+            Self::Garbage,
         )(input)
     }
 
